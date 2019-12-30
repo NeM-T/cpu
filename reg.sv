@@ -14,7 +14,8 @@ always @ (posedge clk)begin
     out_reg1 <= reg_data[read_reg1];
     out_reg2 <= reg_data[read_reg2];
 end 
-always @(negedge clk)begin   
-    if (write_reg == 1 & write_reg_data != 32'bX) reg_data[write_reg_addr] <= write_reg_data;
+
+always @ (negedge clk) begin   
+    if (write_reg == 1 & write_reg_data !== 32'bXXXXXXXX) reg_data[write_reg_addr] <= write_reg_data;
  end
 endmodule 
