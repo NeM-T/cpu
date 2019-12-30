@@ -29,8 +29,8 @@ always_comb begin
             
                 case (INST[14:12]) 
                    `R_ADD_SUB:begin
-                        if(INST[30]) alu_ctr <= `ALU_ADD;
-                        else alu_ctr <= `ALU_SUB;
+                        if(INST[30]) alu_ctr <= `ALU_SUB;
+                        else alu_ctr <= `ALU_ADD;
                     end
                     
                    `R_OR:
