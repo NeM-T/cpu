@@ -1,5 +1,3 @@
-`include "def.sv"
-
 module core(
     input logic clk, reset);
     
@@ -39,7 +37,5 @@ module core(
     ram memory_cpu(clk, m_read, m_write, alu_out, reg2, mem_out);
     
     assign w_data = (out_c)?mem_out:alu_out;  
-    
-
 
 endmodule

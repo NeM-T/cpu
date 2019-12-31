@@ -3,15 +3,14 @@ input logic clk, read_ram, write_ram,
 input logic [31:0] ram_addr, ram_write_data,
 output logic [31:0] ram_out);
 
-logic [31:0] ram_data[32'hffffffff:0];
+logic [31:0] ram_data[32'hf:0];
+for (genvar count = 0; count < 16; count = count + 1) begin
+    assign ram_data [count] = count;//0;
+end 
 
-for (genvar count = 0; count < 32; count = count + 1) begin
-    assign ram_data [count] = 0;
+always_comb begin
+    if (clk == 1 & read_ram == 1) ram_out <= ram_data[ram_addr];
+    if (clk == 0 & write_ram == 1) ram_data[ram_addr] <= ram_write_data;
 end
 
-always @ (posedge clk) begin
-    if (read_ram) ram_out <= ram_data[ram_addr];
-    else ram_out <= ram_addr;
-    if (write_ram) ram_data[ram_addr] <= ram_write_data;
-end
 endmodule 
