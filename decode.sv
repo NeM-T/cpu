@@ -2,30 +2,47 @@
 
 module decode(
 input logic [31:0] INST,
-output logic mem_read, mem_write, reg_write, out_ctr, alu_in_ctr, 
-output logic [1:0] alu_ctr, OP_mode);
+output logic mem_read, mem_write, reg_write, out_ctr, alu_in_ctr,  branch, 
+output logic [1:0] alu_ctr,
+output logic [31:0] ext_out);
 
 always_comb begin
     mem_read <= `false; mem_write <= `false; reg_write <= `false;
-    out_ctr <= `false; alu_in_ctr <= `false;
+    branch <= `false; out_ctr <= `false; alu_in_ctr <= `false; 
+    
+    ext_out[31] <= INST[31];
+    if (ext_out[31]) begin 
+        ext_out[30:11] <= 20'b11111111111111111111;
+        ext_out[0] <= `true;
+    end
+    
     case (INST[6:0]) 
-       `OPCODE_B: begin //branch
+       `OPCODE_B: begin //branch beq
             alu_ctr <= `ALU_SUB;
-            OP_mode <= `OBJ_B;
+            branch <= `true;
+            ext_out[10:5] <= INST[30:25];
+            ext_out[11] <= INST[7];
+            ext_out[4:1] <= INST[11:8];
         end
         
        `OPCODE_I: begin //LW
             alu_ctr <= `ALU_ADD;
             alu_in_ctr <= `true;
             out_ctr <= `true;
-            OP_mode <= `OBJ_I;
             mem_read <=`true;
             reg_write <= `true;
+            ext_out[10:0] <= INST[30:20];
         end
         
+       `OPCODE_II: begin //addi
+        alu_ctr <= `ALU_ADD;
+        alu_in_ctr <= `true;
+               
+        end 
+        
        `OPCODE_R: begin //ADD,SUB,OR,AND
-            OP_mode <= `OBJ_R;
             reg_write <= `true;
+            ext_out <= 0;
             
                 case (INST[14:12]) 
                    `R_ADD_SUB:begin
@@ -44,10 +61,11 @@ always_comb begin
         end
         
        `OPCODE_S: begin //SW
-            OP_mode <= `OBJ_S;
             alu_ctr <= `ALU_ADD;
             mem_write <= `true;
             alu_in_ctr <= `true;
+            ext_out[10:5] <= INST[30:25];
+            ext_out[4:0] <= INST[11:7];
         end
         
         default: ;

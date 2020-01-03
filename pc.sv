@@ -25,13 +25,12 @@ module pc_jmp(
 endmodule
 
 module pc_det (
-    input logic [31:0] tar_inst, pc_inc, 
-    input logic [1:0] opc,
-    input logic ZERO, clk, reset,
+    input logic [31:0] tar_inst, pc_inc,
+    input logic ZERO, clk, reset, branch,
     output logic [31:0] pc_next);
 
     logic [31:0] pc_nu;
-    assign pc_nu = ((opc == `OBJ_B) & (ZERO))?tar_inst:pc_inc;
+    assign pc_nu = (branch && ZERO)?tar_inst:pc_inc;
     
     always_comb begin
         case(reset)
