@@ -36,10 +36,11 @@ always_comb begin
             end
             
            `OPCODE_II: begin //addi
-            alu_ctr <= `ALU_ADD;
-            alu_in_ctr <= `true;
-                   
-            end 
+                alu_ctr <= `ALU_ADD;
+                alu_in_ctr <= `true;
+                reg_write <= `true;
+                ext_out[11:0] <= INST[31:20];
+           end 
             
            `OPCODE_R: begin //ADD,SUB,OR,AND
                 reg_write <= `true;

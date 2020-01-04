@@ -10,11 +10,9 @@ assign cpu_sim.inst_mem.rom_data[3] = 32'b0100000_00010_00001_110_00011_0110011;
 assign cpu_sim.inst_mem.rom_data[4] = 32'b0100000_00010_00001_111_00011_0110011;
 assign cpu_sim.inst_mem.rom_data[5] = 32'b0000000_00010_00001_010_00000_0100011;
 assign cpu_sim.inst_mem.rom_data[6] = 32'b0000000_00000_00001_010_00001_0000011;
+assign cpu_sim.inst_mem.rom_data[7] = 32'b0000000_00011_00001_000_00001_0010011;
 
 
- //   for (genvar count = 0; count < 32; count = count + 1) begin
- //       assign cpu_sim.reg_cpu.reg_data [count] = count;
- //   end 
 initial begin
 
     $dumpvars (0, cpu_sim);
@@ -22,10 +20,11 @@ initial begin
     clk = 1; #10 clk = 0; #10
     clk = 1; #10 clk = 0; #10
     clk = 1; #10 clk = 0; #10
-    clk = 1; #10 clk = 0 ; #10 
-    clk = 1; #10 clk = 0 ; #10 
-    clk = 1; #10 clk = 0 ; #10
-    clk = 1; #10 clk = 0 ; #10
+    clk = 1; #10 clk = 0; #10 
+    clk = 1; #10 clk = 0; #10 
+    clk = 1; #10 clk = 0; #10
+    clk = 1; #10 clk = 0; #10
+    clk = 1; #10 clk = 0; #10 
     $finish;    
 end
 endmodule

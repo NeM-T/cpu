@@ -9,8 +9,7 @@ RISC-Vできるといいと思います。
 - [ ] beq
 - [x] lw
 - [x] sw
-
+- [x] addi
 
 実装しないといけない命令
-- [ ] addi
 - [ ] lui

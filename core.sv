@@ -17,7 +17,6 @@ module core(
     logic [31:0] jmp_inst;
     pc_jmp jmp_cpu(pc_out, ext_num, jmp_inst);
 
-        
 
     logic ZERO;    
     pc_det pc_next(jmp_inst, pc_4, ZERO, clk, reset, branch, pc_n);    

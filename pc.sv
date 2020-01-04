@@ -37,7 +37,7 @@ module pc_det (
             `true :pc_next <= 0;
             
             `false: begin
-                if(clk == `true) pc_next <= pc_nu;
+                if(clk) pc_next <= pc_nu;
              end
         endcase 
     end
