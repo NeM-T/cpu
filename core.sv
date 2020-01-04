@@ -12,7 +12,7 @@ module core(
     logic m_write, m_read, r_write, out_c, alu_in, branch;
     logic [1:0] alu_mode;
     logic [31:0] ext_num;
-    decode decode_cpu(inst, m_read, m_write, r_write, out_c, alu_in, branch, alu_mode, ext_num);
+    decode decode_cpu(inst, reset, m_read, m_write, r_write, out_c, alu_in, branch, alu_mode, ext_num);
         
     logic [31:0] jmp_inst;
     pc_jmp jmp_cpu(pc_out, ext_num, jmp_inst);
