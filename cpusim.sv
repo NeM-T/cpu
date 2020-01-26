@@ -16,7 +16,7 @@ assign cpu_sim.inst_mem.rom_data[7] = 32'b0000000_00011_00001_000_00001_0010011;
 initial begin
 
     $dumpvars (0, cpu_sim);
-    reset = 1; clk = 0; #10; reset = 0; #10;
+    reset = 1; clk = 1; #10; clk = 0; #10; reset = 0;
     clk = 1; #10 clk = 0; #10
     clk = 1; #10 clk = 0; #10
     clk = 1; #10 clk = 0; #10

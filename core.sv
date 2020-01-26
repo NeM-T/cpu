@@ -2,7 +2,7 @@ module core(
     input logic clk, reset);
     
     logic [31:0] pc_n, pc_out, inst;
-    pc pc_cpu(clk, reset, pc_n, pc_out);
+    pc pc_cpu(pc_n, pc_out);
         
     rom inst_mem(pc_out, inst);
     

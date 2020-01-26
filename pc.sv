@@ -1,13 +1,12 @@
 `include "def.sv"
 
 module pc(
-    input logic clk, reset,
     input logic [31:0]pc_num, 
     output logic [31:0] out_pc);
     
-always @(posedge clk) begin
-    out_pc <= pc_num;
-end
+//always @(posedge clk) begin
+    assign out_pc = pc_num;
+//end
 endmodule
 
 module pc_add4(
@@ -32,13 +31,10 @@ module pc_det (
     logic [31:0] pc_nu;
     assign pc_nu = (branch && ZERO)?tar_inst:pc_inc;
     
-    always_comb begin
+    always @(posedge clk) begin
         case(reset)
             `true :pc_next <= 0;
-            
-            `false: begin
-                if(clk) pc_next <= pc_nu;
-             end
+            `false: pc_next <= pc_nu;
         endcase 
     end
     

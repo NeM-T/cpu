@@ -17,7 +17,7 @@ module alu(
            `ALU_AND : aluout <= aluin1 & aluin2;
            
            `ALU_OR  : aluout <= aluin1 | aluin2;
-            default: ;
+            default: aluout <= 0;
         endcase 
         
         zero <= aluout & 0;
