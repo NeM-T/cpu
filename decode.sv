@@ -8,15 +8,17 @@ output logic [1:0] alu_ctr,
 output logic [31:0] ext_out);
 
 always_comb begin    
-   if (reset == 0) begin
+
+    mem_read <= `false; mem_write <= `false; reg_write <= `false;
+    branch <= `false; out_ctr <= `false; alu_in_ctr <= `false; 
+    alu_ctr <= 0; 
+    
+    if (reset == 0) begin
         ext_out[31:12] <= ({20{INST[31]}});
         
         case (INST[6:0]) 
            `OPCODE_B: begin //branch beq
-                
-                mem_read <= `false; mem_write <= `false; reg_write <= `false;
-                out_ctr <= `false; alu_in_ctr <= `false; 
-                
+                                
                 alu_ctr <= `ALU_SUB;
                 branch <= `true;
                 ext_out[10:5] <= INST[30:25];
@@ -26,10 +28,7 @@ always_comb begin
             end
             
            `OPCODE_I: begin //LW
-           
-                mem_write <= `false; 
-                branch <= `false; 
-           
+                      
                 alu_ctr <= `ALU_ADD;
                 alu_in_ctr <= `true;
                 out_ctr <= `true;
@@ -39,10 +38,6 @@ always_comb begin
             end
             
            `OPCODE_II: begin //addi
-                
-                mem_read <= `false; mem_write <= `false;
-                branch <= `false; out_ctr <= `false; 
-
                 alu_ctr <= `ALU_ADD;
                 alu_in_ctr <= `true;
                 reg_write <= `true;
@@ -53,9 +48,6 @@ always_comb begin
                 reg_write <= `true;
                 
                 ext_out[11:0] <= 0;
-                mem_read <= `false; mem_write <= `false; 
-                branch <= `false; out_ctr <= `false; alu_in_ctr <= `false; 
-
                     case (INST[14:12]) 
                        `R_ADD_SUB:begin
                             if(INST[30]) alu_ctr <= `ALU_SUB;
@@ -72,11 +64,7 @@ always_comb begin
                     endcase
             end
             
-           `OPCODE_S: begin //SW
-           
-                mem_read <= `false; reg_write <= `false;
-                branch <= `false; out_ctr <= `false;
-
+           `OPCODE_S: begin //SW           
                 alu_ctr <= `ALU_ADD;
                 mem_write <= `true;
                 alu_in_ctr <= `true;
@@ -84,18 +72,10 @@ always_comb begin
                 ext_out[4:0] <= INST[11:7];
             end
             
-            default:begin 
-                mem_read <= `false; mem_write <= `false; reg_write <= `false;
-                branch <= `false; out_ctr <= `false; alu_in_ctr <= `false; 
-                alu_ctr <= 0; ext_out[11:0] <= 0;
-            end
+            default:;
         endcase 
     end
     
-    else begin 
-        mem_read <= `false; mem_write <= `false; reg_write <= `false;
-        branch <= `false; out_ctr <= `false; alu_in_ctr <= `false; 
-        alu_ctr <= 0; ext_out <= 0;
-    end 
+    else ext_out <= 0;
 end
 endmodule

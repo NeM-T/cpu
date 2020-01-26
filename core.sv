@@ -1,5 +1,6 @@
 module core(
-    input logic clk, reset);
+    input logic clk, reset, 
+    output logic [3:0]out_cpu);
     
     logic [31:0] pc_n, pc_out, inst;
     pc pc_cpu(pc_n, pc_out);
@@ -35,5 +36,14 @@ module core(
     ram memory_cpu(clk, m_read, m_write, alu_out, reg2, mem_out);
     
     assign w_data = (out_c)?mem_out:alu_out;  
+    
+    out cpu_o(w_data, out_cpu);
+endmodule
 
+    (* dont_toutch = "true" *)
+    module out(
+    input logic [31:0] cpu_out,
+    output logic [3:0]out_t);
+
+    assign out_t = cpu_out[3:0];
 endmodule
