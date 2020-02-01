@@ -1,11 +1,11 @@
 module core(
-    input logic clk, reset, 
+    input logic CLK, reset, 
     output logic [3:0]out_cpu);
     
     logic [31:0] pc_n, pc_out, inst;
     pc pc_cpu(pc_n, pc_out);
         
-    rom inst_mem(pc_out, inst);
+    rom inst_mem(pc_out/4, inst);
     
     logic [31:0]pc_4;
     pc_add4 pc_4_cpu(pc_out, pc_4);
@@ -20,11 +20,11 @@ module core(
 
 
     logic ZERO;    
-    pc_det pc_next(jmp_inst, pc_4, ZERO, clk, reset, branch, pc_n);    
+    pc_det pc_next(jmp_inst, pc_4, ZERO, CLK, reset, branch, pc_n);    
     
     
     logic [31:0] reg1, reg2, w_data;
-    register reg_cpu(clk, r_write, inst[19:15], inst[24:20], inst[11:7], w_data, reg1, reg2);    
+    register reg_cpu(CLK, r_write, inst[19:15], inst[24:20], inst[11:7], w_data, reg1, reg2);    
     logic [31:0] alu_in2 ;
     assign alu_in2 = (alu_in)? ext_num: reg2;
     
@@ -33,15 +33,14 @@ module core(
     alu alu_cpu(reg1, alu_in2, alu_mode, alu_out, ZERO);
     
     logic [31:0] mem_out;
-    ram memory_cpu(clk, m_read, m_write, alu_out, reg2, mem_out);
+    ram memory_cpu(CLK, m_read, m_write, alu_out, reg2, mem_out);
     
     assign w_data = (out_c)?mem_out:alu_out;  
     
-    out cpu_o(w_data, out_cpu);
+    /*(* dont_toutch = "true" *)*/ out cpu_o(w_data, out_cpu);
 endmodule
 
-    (* dont_toutch = "true" *)
-    module out(
+module out(
     input logic [31:0] cpu_out,
     output logic [3:0]out_t);
 

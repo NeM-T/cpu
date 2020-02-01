@@ -72,7 +72,7 @@ always_comb begin
                 ext_out[4:0] <= INST[11:7];
             end
             
-            default:;
+            default:ext_out[11:0] <= 0;
         endcase 
     end
     

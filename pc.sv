@@ -13,7 +13,7 @@ module pc_add4(
     input logic [31:0]num,
     output logic [31:0]inc_pc);
         
-    assign inc_pc = num + 1;
+    assign inc_pc = num + 4;
 endmodule
 
 module pc_jmp(

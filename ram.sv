@@ -3,7 +3,7 @@ input logic clk, read_ram, write_ram,
 input logic [31:0] ram_addr, ram_write_data,
 output logic [31:0] ram_out);
 
-logic [31:0] ram_data[32'hf:0];
+logic [31:0] ram_data[31:0];
 
 integer count;
 
@@ -12,10 +12,11 @@ initial begin
         ram_data [count] <= count;//0;
     end 
 end
-
-always_comb begin
-    if (clk && read_ram) ram_out <= ram_data[ram_addr];
-    if (~clk && write_ram) ram_data[ram_addr] <= ram_write_data;
-end
-
+ 
+    assign ram_out = (clk && read_ram)?ram_data[ram_addr]:0;
+    
+    always @(negedge clk) begin
+        ram_data[ram_addr] <= (write_ram)?ram_write_data:ram_data[ram_addr];
+    end
+    
 endmodule 
